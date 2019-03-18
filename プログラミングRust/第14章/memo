@@ -1,0 +1,24 @@
+14章 クロージャ
+
+ソートは以下でやればいい。
+integers.sort();
+ただしこれでできるのは整数だけ。
+文字列などはどうやってソートすればよいかわからないのでエラーになる。
+なので以下のようにソートの順番を指定すればよい。
+fn city_population_descending(city: &City) -> i64{
+    -city.population
+}
+
+fn sort_cities(cities:&mut Vec<City>){
+    cities.sort_by_key(city_population_descending);
+}
+
+補助関数を無名関数式であるクロージャにするとコンパクトに書ける。
+fn sort_cities(cities:&mut Vec<City>){
+    cities.sort_by_key(|city| -city.population)
+}
+この|city| -city.populationの部分がクロージャ。
+
+Rustにはガベージコレクションがない。
+その代わり生存期間を使うことで安全性を保つ。
+

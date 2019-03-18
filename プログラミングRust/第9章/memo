@@ -1,0 +1,54 @@
+9章 構造体
+
+Rustには以下の構造体がある。
+・名前付きフィールド型
+・タプル型
+・ユニット型
+
+名前付きフィールド型の定義は以下
+struct GrayscaleMap{
+    pixels: Vec<u8>,
+    size: (usize,usize)
+}
+型はキャメルケース、フィールド名やメソッド名はスネークケースで記載する。
+この型の値を生成するには以下
+let width = 1024;
+let height = 576;
+let image = GrayscaleMap{
+    pixels: vec![0;width * height],
+    size: (width,height)
+}
+
+以下の方法でも指定は可能
+fn new_map(usize, usize),pixels:Vec<u8>) -> GrayscaleMap{
+    assert_eq!(pixels.len(),size.0 * size.1);
+    GrayscaleMap{pixels,size}
+}
+構造体はデフォルトでプライベート。
+
+タプル構造体は以下のように定義する
+struct Bounds(usize,usize);
+値の作り方はタプルと一緒
+let image_bound = Bounds(1024,768);
+アクセスの仕方もタプルと一緒
+assert_eq!(image_bound.0 * image_bound.1)
+
+ユニット型構造体は要素を全く宣言しない。
+struct Obesuch;
+
+Rustの構造体はジェネリックにすることも可能。
+構造体に生存期間をパラメータとして持たせることも可能。
+
+構造体を以下のように記述するとコピーもクローンも==も!=も利用できない。
+struct Point {
+    x: f64,
+    y: f64
+}
+
+これを解決するためには以下のように書けばよい。
+#[derive(Copy, Clone, Debug, PartialEq)]
+struct Point {
+    x: f64,
+    y: f64
+}
+一部だけ可変可能なデータをもった構造体＝内部可変性

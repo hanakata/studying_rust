@@ -1,0 +1,48 @@
+7章 エラー処理
+
+通常のエラー処理はresultを用いる
+パニックは起こってはいけない種類のエラーに用いる。
+プログラムでパニックが起こるのは以下の場合があげられる
+・配列の範囲外へのアクセス
+・整数のゼロによる除算
+・NoneであるOptionに対する.unwrap()
+・アサートの失敗
+
+パニックを起こすとスタックが巻き戻される。
+巻き戻しを行わないのは2つ
+・1つ目のパニックを巻き戻している間にパニックが起きた場合
+・カスタマイズすることで1つ目のパニックでアボートする
+
+例外がないので失敗する可能性のあるものはResultで
+Resultをしっかりと利用するためにはmatch式を利用する。
+match get_weather(hometown){
+    Ok(report) => {
+        display_weather(hometown,$report)
+    }
+    Err(err) => {
+        println("error")
+        schedule_weather_retry();
+    }
+}
+
+これでtry/chatchのような動作となる。
+metchを使うと冗長になるのでそれぞれメソッドが用意されている。
+result.is_ok()とかresult.is_err()は成功かエラーを示すbool値を返す
+result.ok()成功した値をoption<T>として返す。エラーの場合はNone。
+result.err()失敗した値をoption<E>で返す。
+参照を借用するのはresult.as_ref()成功値またはエラー値をresultから借用。result<T,E>をresult<&T,&E>に変換する。
+result.as_mut()は可変参照。
+
+is_err,is_ok以外はメソッドが動作対象にあるresultを消費する。
+Result<()>のようなものを見つけたらエイリアスと理解すること。
+エラー表示は基本println!()で表示することができる。
+println!({},err)とかでやると短いエラー表示。
+println!({:?},err)でやるとデバック表示。
+
+何か失敗したところでエラーをその場でとらえる必要はないのでその場合はスタックでエラーを伝搬させる。
+伝搬させるには?演算子を利用する。
+
+Resultが作られる場所ではほとんどの場合、呼び出し元にエラーを順送りするのが正しい挙動。
+mainの返り値の型はResultではないので？は使えない。
+mainでエラー処理を行う最も簡単な方法は.expect()を使う
+

@@ -1,0 +1,30 @@
+10章 列挙型とパターン
+
+簡単なCスタイルの列挙型
+enum Ordering {
+    Less,
+    Equal,
+    Grater
+}
+これは3つの構成子をもつOrdering型
+使う方法は以下
+fn compare(n: i32, m: i32) -> Ordering{
+    if n < m {
+        Ordering::Less
+    }else if n > m {
+        Ordering::Grater
+    }else{
+        Ordering::Equal
+    }
+}
+
+列挙型の問題点は警告を無視して値のフィールドにアクセスできないこと。
+
+パターンに識別子を書くと別の変数ができるので既存変数を利用することはできない。
+パターンは参照を使う機能を2つサポートする。
+refはマッチした値の一部を借用
+&は参照にマッチする。
+
+ifキーワードを用いてmatchの分枝にガードをつけることができる。
+ガード式の評価結果がTrueになった場合に成功となる。
+

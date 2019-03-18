@@ -1,0 +1,11 @@
+17章　文字列とテキスト
+
+RustはUTF-8形式で表現する。
+数字を扱うには以下のメソッドを利用する。
+ch.to_digit(radix)
+std::char::from_digit(num,radix)
+ch.is_digit(radix)
+
+フィールド幅は実行時に指定することができる。
+独自型のフォーマット出力も可能。
+
